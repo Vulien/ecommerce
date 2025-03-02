@@ -1,0 +1,191 @@
+﻿{% extends 'store/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} - Shop Móc & More{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Cột ảnh sản phẩm -->
+        <div class="col-md-6">
+            {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded">
+            {% else %}
+            <img src="{% static 'images/default.png' %}" alt="{{ product.name }}" class="img-fluid rounded">
+            {% endif %}
+        </div>
+        <!-- Cột thông tin sản phẩm -->
+        <div class="col-md-6">
+            <h1>{{ product.name }}</h1>
+            <hr>
+            
+            <h5 class="card-text">
+                <span class="original-price">20000,00 VNĐ</span>
+                <span class="sale-price">{{ product.price}} VNĐ</span>
+            </h5>
+            <hr>
+
+
+            <!-- Nút Thêm vào giỏ hàng -->
+            <div class="mt-4">
+                <div class="input-group" style="max-width: 250px;">
+                    <input type="number" class="form-control" min="1" value="1" id="quantity-{{ product.id }}">
+                    <button class="btn btn-success add-to-cart"
+                            data-product="{{ product.id }}"
+                            data-quantity-input="quantity-{{ product.id }}"
+                            type="button">
+                        Thêm vào giỏ
+                    </button>
+                </div>
+            </div>
+            <hr>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.facebook.com/profile.php?id=61573514560235&mibextid=wwXIfr&rdid=T2VMiFQNDTl96Uv2&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F168GMNLsgp%2F%3Fmibextid%3DwwXIfr" target="_blank" title="Chia sẻ Fanpage của Shop trên Facebook">
+                <img src="{% static 'images/fb1.png' %}" alt="Chia sẻ trên Facebook" class="fb-icon">
+            </a>
+
+        </div>
+    </div>
+    <hr>
+    <!-- Thanh tab -->
+    <ul class="nav nav-tabs" id="productDetailTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="mo-ta-tab" data-bs-toggle="tab" data-bs-target="#mo-ta" type="button" role="tab" aria-controls="mo-ta" aria-selected="true">
+                MÔ TẢ
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="danh-gia-tab" data-bs-toggle="tab" data-bs-target="#danh-gia" type="button" role="tab" aria-controls="danh-gia" aria-selected="false">
+                ĐÁNH GIÁ
+            </button>
+        </li>
+    </ul>
+
+    <!-- Nội dung 2 tab -->
+    <div class="tab-content mt-3" id="productDetailTabContent">
+        <div class="tab-pane fade show active" id="mo-ta" role="tabpanel" aria-labelledby="mo-ta-tab">
+            <div class="product-description">
+                {{ product.description|safe }}
+            </div>
+        </div>
+        <div class="tab-pane fade" id="danh-gia" role="tabpanel" aria-labelledby="danh-gia-tab">
+
+            <div class="review-form mb-4">
+                <section class="title-section">
+                    <div class="container">
+                        <div class="title-box text-center">
+                            <h5>Viết đánh giá của bạn</h5>
+                        </div>
+
+                    </div>
+                </section>
+
+                <form method="POST" action="">
+                    {% csrf_token %}
+
+                    <!-- Đánh giá sao -->
+                    {% with selected=form.rating.value|default:"" %}
+                    {% for choice_value, choice_label in form.rating.field.choices %}
+                    {% if selected|stringformat:"s" == choice_value|stringformat:"s" %}
+                    <input type="radio" id="rating-{{ choice_value }}" name="{{ form.rating.name }}" value="{{ choice_value }}" checked required>
+                    {% else %}
+                    <input type="radio" id="rating-{{ choice_value }}" name="{{ form.rating.name }}" value="{{ choice_value }}" required>
+                    {% endif %}
+                    <label for="rating-{{ choice_value }}">{{ choice_label }}</label>
+                    {% endfor %}
+                    {% endwith %}
+
+
+                    <!-- Họ và tên -->
+                    <div class="form-group">
+                        <label for="{{ form.name.id_for_label }}" class="form-label">Họ và tên:</label>
+                        {{ form.name }}
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="{{ form.email.id_for_label }}" class="form-label">Email:</label>
+                        {{ form.email }}
+                    </div>
+
+                    <!-- Nhận xét -->
+                    <div class="form-group">
+                        <label for="{{ form.content.id_for_label }}" class="form-label">Nhận xét:</label>
+                        {{ form.content }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
+                </form>
+            </div>
+
+            <hr>
+            <!-- Danh sách đánh giá -->
+            <div class="review-list">
+
+                <section class="title-section">
+                    <div class="container">
+                        <div class="title-box text-center">
+                            <h5>Đánh giá của khách hàng</h5>
+                        </div>
+
+                    </div>
+                </section>
+
+                {% if reviews %}
+                {% for review in reviews %}
+                <div class="review-item border-bottom pb-2 mb-2">
+                    <p>
+                        <strong>{{ review.name }}</strong> ({{ review.email }}) -
+                        <small>{{ review.created_at|date:"d/m/Y H:i" }}</small>
+                    </p>
+                    <p>Đánh giá: {{ review.rating }} sao</p>
+                    <p>{{ review.content|linebreaks }}</p>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>Chưa có đánh giá nào cho sản phẩm này.</p>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+    <hr>
+    {% if similar_products %}
+    <div class="similar-products mt-5">
+        <h2 class="text-center mb-4">Sản phẩm tương tự</h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+            {% for similar in similar_products %}
+            <div class="col">
+                <div class="card h-100 product-similar-card">
+                    <a href="{% url 'product_detail' similar.id %}" class="card-link position-relative">
+                        {% if similar.image %}
+                        <img src="{{ similar.image.url }}" class="card-img-top img-fluid" alt="{{ similar.name }}">
+                        {% else %}
+                        <img src="{% static 'images/default.png' %}" class="card-img-top img-fluid" alt="{{ similar.name }}">
+                        {% endif %}
+                        <div class="card-img-overlay d-flex align-items-center justify-content-center overlay-hover">
+                            <span class="text-white fw-bold">Xem chi tiết</span>
+                        </div>
+                    </a>
+                    <div class="card-body text-center">
+                        <a href="{% url 'product_detail' similar.id %}" class="text-decoration-none text-dark">
+                            <h6 class="card-title">{{ similar.name }}</h6>
+                        </a>
+                        
+                        <p class="card-text">
+                            <span class="original-price">20000,00 VNĐ</span>
+                            <span class="sale-price">{{ product.price}} VNĐ</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <hr class="full-width-line">
+    <!-- Block nội dung riêng cho sản phẩm chi tiết -->
+    {% block extra_content %}
+    {% endblock %}
+</div>
+{% endblock %}

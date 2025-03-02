@@ -1,0 +1,49 @@
+﻿{% extends 'store/base.html' %}
+{% load static %}
+{% block head %}
+{{ block.super }}
+
+{% endblock %}
+{% block title %}Chính sách bảo mật{% endblock %}
+{% block content %}
+
+<div class="container policy-container">
+    <h1 class="text-center mb-4">Chính sách bảo mật</h1>
+    <p>Chúng tôi cam kết bảo vệ quyền riêng tư và thông tin cá nhân của khách hàng khi mua hàng trực tuyến qua Facebook và website.</p>
+
+    <div class="policy-section">
+        <div class="policy-heading">1. Thông tin thu thập</div>
+        <div class="policy-content">
+            <ul>
+                <li>Thông tin cá nhân (họ tên, số điện thoại, địa chỉ giao hàng) được cung cấp khi khách hàng đặt hàng.</li>
+                <li>Thông tin thanh toán nếu khách hàng chọn phương thức chuyển khoản trực tuyến.</li>
+                <li>Tin nhắn và phản hồi từ khách hàng qua Facebook hoặc website.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="policy-section">
+        <div class="policy-heading">2. Cách chúng tôi sử dụng thông tin</div>
+        <div class="policy-content">
+            <ul>
+                <li>Xử lý đơn hàng và giao hàng đúng địa chỉ.</li>
+                <li>Cung cấp dịch vụ hỗ trợ và phản hồi yêu cầu của khách hàng.</li>
+                <li>Gửi thông báo khuyến mãi hoặc cập nhật mới (nếu được sự đồng ý).</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="policy-section">
+        <div class="policy-heading">3. Cam kết bảo mật</div>
+        <div class="policy-content">
+            <ul>
+                <li>Thông tin của bạn sẽ không được chia sẻ với bất kỳ bên thứ ba nào ngoại trừ các đối tác vận chuyển được chỉ định.</li>
+                <li>Dữ liệu khách hàng được lưu trữ an toàn và chỉ được sử dụng cho mục đích phục vụ bạn tốt hơn.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

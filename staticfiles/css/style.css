@@ -1,0 +1,92 @@
+﻿
+
+/* Tổng thể */
+body {
+    background-color: #fff6f6; /* nền đỏ nhạt */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #b30000; /* màu đỏ đậm cho navbar */
+}
+
+.navbar-brand, .nav-link {
+    color: #ffffff !important;
+}
+
+    .nav-link:hover {
+        color: #ffcccc !important;
+    }
+
+/* Thông báo giỏ hàng (cart message) */
+#cart-message {
+    background-color: #ffcccc; /* nền đỏ nhạt */
+    border: 1px solid #ff9999;
+    color: #660000;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Card sản phẩm */
+.card {
+    border: 1px solid #ffcccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+    height: 250px;
+    object-fit: cover;
+}
+
+/* Overlay mô tả (nếu dùng) hoặc link see more */
+.see-more {
+    cursor: pointer;
+    color: #b30000;
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+    .see-more:hover {
+        color: #990000;
+    }
+
+/* Nút Thêm vào giỏ, thay đổi màu nền theo theme */
+.btn-success {
+    background-color: #b30000;
+    border-color: #b30000;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-success:hover {
+        background-color: #990000;
+        border-color: #990000;
+    }
+
+/* Modal Mini-Cart */
+.modal-content {
+    background-color: #ffe6e6; /* nền modal đỏ nhạt */
+    border: none;
+    border-radius: 8px;
+}
+
+.modal-header, .modal-footer {
+    border: none;
+}
+
+.modal-title {
+    color: #b30000;
+}
+
+/* Các input form (nếu cần) */
+.form-control {
+    border: 1px solid #ffcccc;
+    border-radius: 4px;
+}
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #b30000;
+    }

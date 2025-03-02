@@ -1,0 +1,47 @@
+﻿{% extends 'store/base.html' %}
+{% load static %}
+{% block head %}
+{{ block.super }}
+
+{% endblock %}
+{% block title %}Hướng dẫn mua hàng{% endblock %}
+{% block content %}
+<div class="container policy-container">
+    <h1 class="text-center mb-4"> Hướng dẫn mua hàng</h1>
+
+    <div class="policy-section">
+        <div class="policy-heading">1. Đặt hàng qua Facebook</div>
+        <div class="policy-content">
+            <p>1. Truy cập fanpage chính thức của <strong>Móc & More</strong>.</p>
+            <p>2. Xem danh mục sản phẩm hoặc album ảnh để chọn sản phẩm bạn yêu thích.</p>
+            <p>3. Nhắn tin trực tiếp cho fanpage, cung cấp thông tin sản phẩm cần mua và địa chỉ giao hàng.</p>
+            <p>
+                4. Nhân viên của chúng tôi sẽ xác nhận đơn hàng, tổng tiền và thời gian giao hàng với bạn.
+            </p>
+        </div>
+    </div>
+
+    <div class="policy-section">
+        <div class="policy-heading">2. Đặt hàng qua website</div>
+        <div class="policy-content">
+            <p>1. Truy cập vào website của <strong>Móc & More</strong>.</p>
+            <p>2. Duyệt qua danh mục sản phẩm và chọn sản phẩm muốn mua.</p>
+            <p>3. Thêm sản phẩm vào giỏ hàng, điền thông tin giao hàng và chọn phương thức thanh toán.</p>
+            <p>4. Xác nhận đặt hàng và chờ nhân viên liên hệ xác nhận.</p>
+        </div>
+    </div>
+
+    <div class="policy-section">
+        <div class="policy-heading">3. Thanh toán</div>
+        <div class="policy-content">
+            <ul>
+                <li>Chúng tôi hỗ trợ thanh toán bằng tiền mặt khi nhận hàng (COD) hoặc chuyển khoản ngân hàng.</li>
+                <li>Trường hợp bạn thanh toán qua chuyển khoản ngân hàng thì đơn hàng chỉ được lên đơn khi bạn đã thanh toán và gửi xác nhận đến Messenger của chúng tôi.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

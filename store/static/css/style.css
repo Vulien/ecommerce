@@ -1,0 +1,681 @@
+﻿
+
+/* Tổng thể */
+body {
+    background-color: #fff6f6; /* nền đỏ nhạt */
+    font-family: 'Arial', sans-serif;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #fff !important; /* nền trắng */
+    color: #d41919 !important; /* chữ đen */
+    border-bottom: 1px solid #ccc; /* thêm viền dưới nếu cần */
+}
+
+    .navbar .navbar-brand,
+    .navbar .nav-link {
+        color: #f96464 !important; 
+    }
+
+        .navbar .nav-link:hover {
+            color: #990000 !important;
+        }
+
+.top-line {
+    height: 10px; /* Điều chỉnh độ dày của dòng */
+    background-color: #9dcdf5; /* Màu xanh dương */
+    width: 100%;
+}
+
+/* CSS nội tuyến cho card sản phẩm */
+.product-card {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+    .product-card .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .product-card .description {
+        display: none; /* Ẩn mô tả ban đầu */
+    }
+
+.product-card {
+    position: relative;
+    overflow: hidden;
+}
+
+    /* Ảnh trong product-card */
+    .product-card img {
+        transition: transform 0.3s ease;
+    }
+
+    /* Khi hover vào .product-card, phóng to ảnh */
+    .product-card:hover img {
+        transform: scale(1.25);
+    }
+
+/* Phần chữ “See more” hoặc “Xem nhanh” ẩn mặc định */
+.hover-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 15px;
+    background-color: #ffcccc; /* Màu nền hồng nhạt, tuỳ ý */
+    color: #fff; /* Màu chữ trắng */
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0; /* Ẩn */
+    transition: opacity 0.3s ease;
+}
+
+/* Khi hover vào .product-card, hiện chữ .hover-text */
+.product-card:hover .hover-text {
+    opacity: 1;
+}
+
+
+
+.card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Cho overlay nằm bên trong */
+}
+/* Overlay mô tả, ban đầu ẩn */
+.desc-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    overflow: auto;
+    display: none;
+    z-index: 10;
+}
+
+
+/* Thông báo giỏ hàng (cart message) */
+#cart-message {
+    background-color: #ffcccc; /* nền đỏ nhạt */
+    border: 1px solid #ff9999;
+    color: #660000;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Card sản phẩm */
+.card {
+    border: 1px solid #ffcccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+    height: 250px;
+    object-fit: cover;
+}
+
+
+/* Nút Thêm vào giỏ, thay đổi màu nền theo theme */
+.btn-success {
+    background-color: #fc9292;
+    border-color: #990000;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-success:hover {
+        background-color: #990000;
+        border-color: #990000;
+    }
+
+/* Modal Mini-Cart */
+.modal-content {
+    background-color: #ffe6e6; /* nền modal đỏ nhạt */
+    border: none;
+    border-radius: 8px;
+}
+
+.modal-header, .modal-footer {
+    border: none;
+}
+
+.modal-title {
+    color: #b30000;
+}
+
+/* Các input form (nếu cần) */
+.form-control {
+    border: 1px solid #ffcccc;
+    border-radius: 4px;
+}
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #b30000;
+    }
+
+.logo {
+    height: 65px; /* Điều chỉnh chiều cao theo ý bạn */
+}
+
+
+
+.section-about {
+    position: relative;
+    height: 550px; /* Điều chỉnh chiều cao mong muốn */
+    overflow: hidden;
+}
+
+.about-video-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.about-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Giữ tỷ lệ, phủ kín vùng chứa */
+}
+
+.overlay-content {
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.4); /* Nền mờ cho overlay */
+    padding: 20px;
+    border-radius: 8px;
+}
+
+footer {
+    background-color: rgba(0, 0, 0, 0.4);
+    color: #ffffff;
+    border-top: 1px solid #ccc; /* viền trên */
+}
+
+    footer a {
+        color: #ffffff;
+    }
+
+        footer a:hover {
+            color: #333333;
+        }
+
+.container.d-flex.justify-content-between.align-items-center {
+    position: relative;
+    top: -130px;
+}
+
+#floating-cart-icon {
+    position: fixed;
+    top: 80px; /* Điều chỉnh theo chiều cao navbar của bạn */
+    right: 35px; /* Khoảng cách từ mép phải */
+    z-index: 9999; /* Đảm bảo nằm trên các thành phần khác */
+}
+
+    #floating-cart-icon button {
+        font-size: 1.5rem; /* Tăng kích thước chữ/icon */
+    }
+
+    #floating-cart-icon .badge {
+        font-size: 0.7rem;
+        padding: 0.5em 0.7em;
+    }
+
+.final-total-box {
+    border: 2px solid #ff4d6d;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #ffeaea;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+    .final-total-box h4 {
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+.final-total {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #ff3366;
+}
+
+.custom-image-section {
+    position: relative;
+    width: 100%;
+    /* Chiều cao có thể được tự động từ ảnh hoặc cố định */
+    height: 400px;
+    overflow: hidden;
+}
+
+.custom-image {
+    width: 100%;
+    height: 100%; /* Đặt chiều cao ảnh bằng chiều cao phần chứa */
+    object-fit: cover; /* Giữ tỉ lệ và phủ kín */
+    display: block;
+}
+
+.overlay-text {
+    position: absolute;
+    top: 50%; /* Căn giữa theo chiều dọc */
+    left: 50%; /* Căn giữa theo chiều ngang */
+    transform: translate(-50%, -50%);
+    color: #ffffff; /* Chữ màu trắng */
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.4); /* Tùy chọn: nền mờ để chữ dễ đọc */
+    border-radius: 8px; /* Tùy chọn: bo góc */
+}
+
+
+.corner-image {
+    position: absolute;
+    top: 0;
+    right: 7%;
+    width: 300px; /* Điều chỉnh kích thước ảnh mới theo ý bạn */
+    height: auto;
+    z-index: 3;
+}
+
+
+
+
+/* Các nút liên hệ dạng hình tròn */
+.icon-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #9c27b0; /* Màu nền cho Contact, thay đổi tùy theo class */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    .icon-circle img {
+        width: 60%;
+        height: 60%;
+        object-fit: contain;
+    }
+
+    /* Hover hiệu ứng */
+    .icon-circle:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    }
+
+/* Các màu nền riêng cho các nút */
+.phone {
+    background-color: #ffffff;
+}
+
+.messenger {
+    background-color: #ffffff;
+}
+
+.email {
+    background-color: #ffffff;
+}
+
+.contact-btn {
+    background-color: #edcff4;
+    border: none;
+    cursor: pointer;
+}
+
+.contact-container {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    /* Sử dụng flex-direction: column-reverse để nút Contact chính luôn ở dưới,
+     và các icon phụ hiện ra phía trên */
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 10px; /* Khoảng cách giữa các nút */
+    z-index: 9999;
+}
+
+/* Ẩn phần icon khi có class .hidden */
+.hidden {
+    display: none !important;
+}
+
+.title-section .title-box {
+    border: 2px solid #000; /* Khung viền đen */
+    padding: 20px;
+    
+    margin: 40px 0; /* Khoảng cách trên dưới */
+    background-color: #fff; /* Nền trắng */
+}
+
+    .title-section .title-box h2 {
+        margin-bottom: 10px;
+        font-size: 2rem;
+        color: #000;
+    }
+
+    .title-section .title-box p {
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+.full-width-line {
+    border: none; /* Loại bỏ border mặc định */
+    height: 4px; /* Độ dày của đường kẻ, bạn có thể điều chỉnh */
+    background-color: #000; /* Màu đen, bạn có thể đổi màu nếu muốn */
+    margin: 50px 0; /* Khoảng cách trên dưới, điều chỉnh theo ý muốn */
+    width: 100%; /* Đảm bảo chiều rộng 100% của màn hình */
+}
+
+.full-width-linew {
+    border: none; /* Loại bỏ border mặc định */
+    height: 4px; /* Độ dày của đường kẻ, bạn có thể điều chỉnh */
+    background-color: #ffffff; /* Màu đen, bạn có thể đổi màu nếu muốn */
+    margin: 20px 0; /* Khoảng cách trên dưới, điều chỉnh theo ý muốn */
+    width: 100%; /* Đảm bảo chiều rộng 100% của màn hình */
+}
+
+.feature-icon {
+    width: 40px; /* Điều chỉnh kích thước icon */
+    height: 40px;
+    object-fit: contain; /* Đảm bảo ảnh không bị méo */
+}
+
+.map-container {
+    text-align: center;
+}
+
+    .map-container iframe {
+        display: inline-block;
+    }
+
+.contact-follow-container {
+  display: flex;
+  align-items: center;
+  gap: 80px;            /* Khoảng cách giữa nút và phần theo dõi */
+  margin-left: 40px;    /* Điều chỉnh khoảng cách bên trái */
+  margin-top: 20px;     /* Khoảng cách phía trên */
+}
+
+/* Nếu cần căn chỉnh riêng cho nút thông tin liên hệ (nếu chưa có) */
+.contact-button-container {
+  /* Bạn có thể thêm margin, padding hoặc kích thước tùy ý */
+}
+
+/* Phần theo dõi chúng tôi */
+.follow-us {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    /* Nếu muốn nền khác, bạn có thể thêm background-color */
+    /* background-color: #f9f9f9; */
+}
+
+
+.fanpage-image {
+    width: 550px; /* Điều chỉnh kích thước ảnh theo ý bạn */
+    height: auto;
+    object-fit: contain;
+    /* Khoảng cách bên phải giữa ảnh và chữ */
+    margin-right: 40px;
+}
+
+.follow-us-text {
+    margin-left: auto; /* Đẩy phần chữ sang bên phải ngoài cùng */
+    text-align: right;
+}
+
+    .follow-us-text h2 {
+        margin: 0;
+        font-size: 1.8rem;
+        color: #d41414; /* Màu chữ, có thể điều chỉnh */
+    }
+
+.arrow-icon {
+    width: 60px; /* Điều chỉnh kích thước mũi tên */
+    height: auto;
+}
+
+.bold-text h5 {
+    font-weight: bold;
+}
+
+/* Container tổng cho trang chính sách */
+.policy-container {
+    max-width: 800px; /* Chiều rộng tối đa của trang */
+    margin: 0 auto; /* Căn giữa trang */
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Tiêu đề của từng mục */
+.policy-heading {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Nội dung của từng mục (thụt vào so với tiêu đề) */
+.policy-content {
+    /* Thụt vào dòng đầu */
+    margin-bottom: 20px;
+    line-height: 1.6;
+    font-size: 1rem;
+    color: #333;
+}
+
+    /* Nếu có đoạn văn cần căn lề đều, bạn có thể sử dụng thêm */
+    .policy-content p {
+        margin: 0 0 10px 2em; /* Căn lề trái cho các đoạn văn */
+    }
+
+.content-with-image {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    gap: 60px; /* Khoảng cách giữa ảnh và nội dung */
+    padding: 20px;
+}
+
+.content-image {
+    flex-shrink: 0; /* Không co lại khi màn hình thu nhỏ */
+    width: 400px; /* Chiều rộng ảnh, bạn có thể điều chỉnh */
+    height: auto;
+    object-fit: cover; /* Giữ tỉ lệ ảnh và phủ kín khung */
+    border-radius: 8px; /* Bo góc nếu cần */
+}
+
+.content-text {
+    flex: 1; /* Chiếm không gian còn lại */
+}
+
+.content-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 2rem; /* Điều chỉnh kích thước tiêu đề nếu cần */
+}
+.content-text p {
+    text-align: justify;
+}
+
+.product-description h3 {
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.product-description h4 {
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+}
+
+.product-description p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.fb-icon {
+    width: 22px;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+    .fb-icon:hover {
+        transform: scale(1.1);
+    }
+
+/* Tạo kiểu cho form đánh giá */
+.review-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+    .review-form h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .review-form .form-group {
+        margin-bottom: 15px;
+    }
+
+    .review-form .form-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    /* Các trường nhập */
+    .review-form input[type="text"],
+    .review-form input[type="email"],
+    .review-form textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+/* Kiểu đánh giá sao */
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+    .rating input[type="radio"] {
+        display: none; /* Ẩn radio mặc định */
+    }
+
+    .rating label {
+        cursor: pointer;
+        font-size: 1.5rem;
+        color: #ccc;
+        transition: color 0.2s, transform 0.2s;
+    }
+
+        /* Hiệu ứng hover và chọn */
+        .rating label:hover,
+        .rating input[type="radio"]:checked + label {
+            color: gold;
+            transform: scale(1.2);
+        }
+
+/* Nút submit */
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 10px;
+    background-color: #fc9292;
+}
+
+/* Định dạng cho danh sách đánh giá */
+.review-list {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+    .review-list h3 {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+.review-item {
+    margin-bottom: 15px;
+}
+
+/* Đảm bảo các card sản phẩm tương tự có kích thước đồng nhất */
+.product-similar-card {
+    position: relative;
+    overflow: hidden;
+}
+
+    /* Ép ảnh có chiều cao cố định để các card đều nhau */
+    .product-similar-card .card-img-top {
+        object-fit: cover;
+        height: 250px; /* Bạn có thể điều chỉnh chiều cao tùy ý */
+        width: 100%;
+        transition: transform 0.3s ease;
+    }
+
+    /* Hiệu ứng phóng to nhẹ ảnh khi hover */
+    .product-similar-card:hover .card-img-top {
+        transform: scale(1.05);
+    }
+
+    /* Overlay hiển thị khi hover vào card */
+    .product-similar-card .card-img-overlay {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        background-color: rgba(255, 99, 71, 0.4);
+    }
+
+    .product-similar-card:hover .card-img-overlay {
+        opacity: 1;
+    }
+
+/* Định dạng cho chữ overlay */
+.overlay-hover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #888;
+    margin-right: 5px;
+}
+
+.sale-price {
+    color: red;
+    font-weight: bold;
+}

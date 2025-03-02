@@ -1,0 +1,62 @@
+﻿{% extends 'store/base.html' %}
+{% load static %}
+{% block head %}
+{{ block.super }}
+
+{% endblock %}
+{% block title %}Chính sách vận chuyển{% endblock %}
+{% block content %}
+
+<div class="container policy-container">
+    <h1 class="text-center mb-4">Chính sách vận chuyển </h1>
+    <p>Với hình thức bán hàng trực tuyến, chúng tôi hiểu rằng giao hàng nhanh chóng và đảm bảo chất lượng là ưu tiên hàng đầu.</p>
+
+    <div class="policy-section">
+        <div class="policy-heading">1. Phạm vi giao hàng</div>
+        <div class="policy-content">
+            <ul>
+                <li>Giao hàng trên toàn quốc.</li>
+                <li>Hỗ trợ giao hàng tận nơi theo địa chỉ khách hàng cung cấp.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="policy-section">
+        <div class="policy-heading">2. Thời gian giao hàng</div>
+        <div class="policy-content">
+            <ul>
+                <li>Nội thành: từ 2-4 giờ sau khi xác nhận đơn hàng.</li>
+                <li>Khu vực lân cận: từ 4-8 giờ, tùy thuộc vào khoảng cách.</li>
+                <li>Liên tỉnh: 3 - 7 ngày làm việc tùy khu vực.</li>
+                <li>Với các đơn hàng đặt trước (theo yêu cầu), thời gian giao hàng sẽ được thỏa thuận riêng./li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="policy-section">
+        <div class="policy-heading">3. Phí vận chuyển</div>
+        <div class="policy-content">
+            <ul>
+                <li>Nội thành: Phí vận chuyển tính theo khu vực, đơn hàng trên X.000đ có thể được miễn phí ship (tùy chương trình).</li>
+                <li>Ngoại thành, liên tỉnh: Phí vận chuyển tính theo biểu phí của đơn vị vận chuyển, hiển thị trước khi xác nhận đơn hàng.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="policy-section">
+        <div class="policy-heading">4. Lưu ý khi nhận hàng</div>
+        <div class="policy-content">
+            <ul>
+                <li>Khách hàng có quyền kiểm tra hàng trước khi thanh toán.</li>
+                <li>Nếu phát hiện lỗi hoặc hư hỏng, khách hàng có thể từ chối nhận hàng và báo ngay cho chúng tôi để được hỗ trợ.</li>
+
+            </ul>
+        </div>
+
+    </div>
+    <p>
+        Chúng tôi luôn cố gắng đảm bảo thời gian và chất lượng giao hàng tốt nhất. Mọi thắc mắc vui lòng liên hệ hotline/fanpage để được hỗ trợ!
+    </p>
+</div>
+
+
+{% endblock %}

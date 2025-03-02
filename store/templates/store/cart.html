@@ -1,0 +1,158 @@
+﻿{% extends 'store/base.html' %}
+{% load static %}
+{% block head %}
+{{ block.super }}
+
+{% endblock %}
+{% block title %}Giỏ hàng của bạn{% endblock %}
+{% block content %}
+
+<div class="container mt-4">
+    <h2>Tóm tắt đơn hàng</h2>
+
+    <!-- Hiển thị thông báo từ Django messages -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info">{{ message|safe }}</div>
+    {% endfor %}
+    {% endif %}
+
+    {% if cart_items %}
+    <div class="mb-3">
+        <strong>Mã đơn hàng:</strong> <span class="badge bg-info">{{ order_code }}</span>
+    </div>
+    <table class="table align-middle">
+        <thead>
+            <tr>
+                <th style="width: 30%;">Sản phẩm</th>
+                <th style="width: 15%;" class="text-center">Số lượng</th>
+                <th style="width: 15%;">Giá (VNĐ)</th>
+                <th style="width: 15%;">Thành tiền (VNĐ)</th>
+                <th style="width: 10%;">Xoá sản phẩm</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr id="cart-item-{{ item.product.id }}">
+                <!-- Cột Sản phẩm: ảnh + tên + mô tả -->
+                <td>
+                    <div class="d-flex">
+                        <!-- Ảnh sản phẩm -->
+                        <div style="width: 80px; height: 80px; overflow: hidden; margin-right: 15px;">
+                            {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}"
+                                 class="img-fluid rounded"
+                                 style="width: 100%; height: 100%; object-fit: cover;">
+                            {% else %}
+                            <img src="{% static 'images/default.png' %}" alt="{{ item.product.name }}"
+                                 class="img-fluid rounded"
+                                 style="width: 100%; height: 100%; object-fit: cover;">
+                            {% endif %}
+                        </div>
+                        <!-- Tên + mô tả -->
+                        <div>
+                            <h6 class="mb-1">{{ item.product.name }}</h6>
+                        </div>
+                    </div>
+                </td>
+
+                <!-- Cột số lượng (hiển thị hoặc có thể thêm nút +/-) -->
+                <td class="text-center">
+                    {{ item.quantity }}
+                </td>
+
+                <!-- Cột giá đơn vị -->
+                <td>
+                    <strong>{{ item.product.price|floatformat:0 }}</strong>
+                </td>
+
+                <!-- Cột thành tiền -->
+                <td>
+                    <strong>{{ item.item_total|floatformat:0 }}</strong>
+                </td>
+
+                <!-- Cột hành động (nút xóa) -->
+                <td>
+                    <button class="btn btn-danger btn-sm remove-from-cart" data-product="{{ item.product.id }}">Xóa</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p><strong>Tạm tính:</strong> <span id="cart-subtotal">{{ total_price|floatformat:0 }}</span> VNĐ</p>
+
+
+    {% else %}
+    <p>Giỏ hàng của bạn đang trống.</p>
+    {% endif %}
+
+
+    <hr>
+    <h3>Thông tin liên hệ</h3>
+    <form method="POST" action="{% url 'checkout' %}" onsubmit="return validateForm()">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label>Quốc gia: <span class="text-danger">*</span></label>
+            <input type="text" name="country" id="country" class="form-control" value="Việt Nam" readonly required>
+        </div>
+        <div class="mb-3">
+            <label>Họ và tên: <span class="text-danger">*</span></label>
+            <input type="text" name="name" id="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Số điện thoại: <span class="text-danger">*</span></label>
+            <input type="text" name="phone" id="phone" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Email: <span class="text-danger">*</span></label>
+            <input type="email" name="email" id="email" class="form-control" required>
+            <p>+ Chúng tôi sẽ sử dụng email này để gửi cho bạn chi tiết và cập nhật về đơn hàng của bạn.</p>
+        </div>
+        <hr />
+        <div class="mb-3">
+            <h5>Nhập địa chỉ để tính phí vận chuyển:</h5>
+            <label>Thành phố/ Tỉnh: <span class="text-danger">*</span></label>
+            <input type="text" name="city" id="city" class="form-control" placeholder="VD: Hà Nội" required>
+            <ul>
+                <li>Miễn phí vận chuyển trong khu vực Hà Nội.</li>
+                <li>Phí vận chuyển là <strong>30.000 VNĐ</strong> với các khu vực khác.</li>
+            </ul>
+
+        </div>
+        <div class="mb-3">
+            <label>Địa chỉ: <span class="text-danger">*</span></label>
+            <input type="text" name="address" id="address" class="form-control" required>
+        </div>
+        <p>+ Thêm căn hộ, phòng, v.v.</p>
+
+        <hr />
+        <div class="mb-3">
+            <h5>Chọn phương thức thanh toán:</h5>
+            <select name="payment_method" id="payment_method" class="form-select" required>
+                <option value="cod">Thanh toán khi nhận hàng (COD)</option>
+                <option value="qr">Thanh toán online qua QR</option>
+            </select>
+        </div>
+
+        <!-- Khối hiển thị QR khi chọn phương thức "qr" -->
+        <div id="qr-section" class="mb-3" style="display: none;">
+            <p>Quét mã QR để thanh toán:</p>
+            <img src="{% static 'images/qr.jpg' %}" alt="QR Code" width="200" class="img-fluid"><br>
+            <p>Số tài khoản: <strong>0356258345</strong> (Vũ Thị Liên)</p>
+            <p><strong>Lưu ý:</strong> Nội dung chuyển khoản bao gồm Tên người đặt hàng và Mã đơn hàng của bạn. Sau đó vui lòng gửi ảnh đã thanh toán qua Messenger của chúng tôi. <strong>Đơn hàng chỉ được giao nếu bạn đã thanh toán và gửi ảnh xác nhận.</strong></p>
+            <ul>
+                <li>Facebook: <a href="https://www.facebook.com/profile.php?id=61573514560235&mibextid=wwXIfr&rdid=3TRYWe0PDCPEI5qn&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1BH1T37MyC%2F%3Fmibextid%3DwwXIfr" target="_blank">Nhấn vào đây</a></li>
+            </ul>
+        </div>
+        <div class="final-total-box mb-3">
+            <h4>Tổng đơn hàng:</h4>
+            <p class="final-total" id="final-total"></p>
+        </div>
+
+        <p>Bằng cách tiến hành mua hàng, bạn đồng ý với <strong>Điều khoản và điều kiện</strong> và <strong>Chính sách bảo mật</strong> của chúng tôi.</p>
+        <button type="submit" class="btn btn-primary">Đặt hàng</button>
+    </form>
+</div>
+
+{% endblock %}

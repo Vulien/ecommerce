@@ -1,0 +1,239 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Shop Móc & More{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        var getCartUrl = "{% url 'get_cart' %}";
+    </script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <link rel="manifest" href="{% static 'site.webmanifest' %}">
+    <script id="chatway" async="true" src="https://cdn.chatway.app/widget.js?id=lcmD7twhpzsM"></script>
+    <script src="{% static 'js/cart.js' %}"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var paymentMethod = document.getElementById('payment_method');
+            var qrSection = document.getElementById('qr-section');
+
+            paymentMethod.addEventListener('change', function () {
+                if (this.value === 'qr') {
+                    qrSection.style.display = 'block';
+                } else {
+                    qrSection.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var cityInput = document.getElementById("city");
+            var cartSubtotalEl = document.getElementById("cart-subtotal");
+            var finalTotalEl = document.getElementById("final-total");
+
+            function updateFinalTotal() {
+                // Lấy giá trị tạm tính, loại bỏ dấu phẩy nếu có
+                var subtotalText = cartSubtotalEl.textContent.replace(/,/g, '');
+                var subtotal = parseFloat(subtotalText) || 0;
+                // Lấy giá trị ô thành phố, chuyển về chữ thường
+                var city = cityInput.value.trim().toLowerCase();
+                // Nếu thành phố là "hà nội" thì phí ship = 0, nếu không thì phí ship = 30000
+                var shippingFee = (city === "hà nội") ? 0 : 30000;
+                var finalTotal = subtotal + shippingFee;
+                // Cập nhật hiển thị tổng tiền (không có số thập phân)
+                finalTotalEl.textContent = finalTotal.toFixed(0) + " VNĐ";
+            }
+
+            // Gọi hàm cập nhật khi trang load
+            updateFinalTotal();
+
+            // Lắng nghe sự kiện khi người dùng nhập thành phố (update ngay lập tức)
+            cityInput.addEventListener("input", updateFinalTotal);
+        });
+    </script>
+
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="top-line"></div>
+    <!-- Navbar đơn giản -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo me-2">
+                Cửa Hàng Online
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHome">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarHome">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Trang Chủ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">Về chúng tôi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'products' %}">Sản Phẩm</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="{% url 'contact' %}">Liên Hệ</a></li>
+
+                    {% if user.is_authenticated %}
+                    <li class="nav-item"><span class="nav-link">Chào, {{ user.email }}</span></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Đăng Xuất</a></li>
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Đăng Nhập</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="floating-cart-icon">
+        <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#miniCartOffcanvas">
+            🛒<span id="cart-count" class="badge bg-danger">{{ cart_count}}</span>
+        </button>
+
+    </div>
+
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Container chứa các nút liên hệ -->
+    <div class="contact-container">
+        <!-- Nút Contact -->
+        <!-- Các icon liên hệ (mặc định ẩn) -->
+        <div class="contact-icons hidden">
+            <a href="tel:+84348111418" class="icon-circle phone" title="Gọi điện">
+                <img src="{% static 'images/phone.png' %}" alt="Phone Icon">
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61573514560235&mibextid=wwXIfr&rdid=3TRYWe0PDCPEI5qn&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1BH1T37MyC%2F%3Fmibextid%3DwwXIfr" target="_blank" class="icon-circle messenger" title="Messenger">
+                <img src="{% static 'images/messenger.png' %}" alt="Messenger Icon">
+            </a>
+            <a href="mailto:mocmore.shop@gmail.com" class="icon-circle email" title="Gửi Email">
+                <img src="{% static 'images/email.png' %}" alt="Email Icon">
+            </a>
+        </div>
+
+        <button class="icon-circle contact-btn" id="contact-toggle" title="Contact">
+            <img src="{% static 'images/contact.png' %}" alt="Contact Icon">
+        </button>
+    </div>
+
+    <!-- Footer đơn giản -->
+    <footer class="py-3">
+        <section class="features-section py-4">
+            <div class="container">
+                <div class="row">
+                    <!-- Mục 1 -->
+                    <div class="col-md-4 d-flex align-items-start mb-3">
+                        <!-- Icon (ảnh của bạn) -->
+                        <!-- Nội dung chữ -->
+                        <div>
+                            <div class="bold-text">
+                                <h5> Liên hệ</h5>
+                            </div>
+
+                            <p class="mb-0">SHOP MÓC & MORE</p>
+                            <p class="mb-0">Thành lập: 02/03/2025</p>
+                            <p class="mb-0">Địa chỉ: Số 61, ngõ 75 Giải Phóng, phường Đồng Tâm, quận Hai Bà Trưng, thành phố Hà Nội, Việt Nam</p>
+                            <p class="mb-0">Email: mocmore.shop@gmail.com</p>
+                            <p class="mb-0">Hotline: +84348111418</p>
+                        </div>
+                    </div>
+                    <!-- Mục 2 -->
+                    <div class="col-md-4 d-flex align-items-start mb-3">
+
+                        <div>
+                            <div class="bold-text">
+                                <h5> Chăm sóc khách hàng</h5>
+                            </div>
+
+                            <p class="mb-0">
+                                <a href="{% url 'policy' %}" class="text-decoration-none">Chính sách và quy định chung</a>
+                            </p>
+                            <p class="mb-0">
+                                <a href="{% url 'check' %}" class="text-decoration-none">Chính sách kiểm hàng</a>
+                            </p>
+                            <p class="mb-0">
+                                <a href="{% url 'security' %}" class="text-decoration-none">Chính sách bảo mật</a>
+                            </p>
+                            <p class="mb-0">
+                                <a href="{% url 'delivery' %}" class="text-decoration-none">Chính sách vận chuyển</a>
+                            </p>
+                            <p class="mb-0">
+                                <a href="{% url 'shopping' %}" class="text-decoration-none">Hướng dẫn mua hàng</a>
+                            </p>
+
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-start mb-3">
+
+                        <div>
+                            <div class="bold-text">
+                                <h5>Thông tin chung</h5>
+                            </div>
+                            <p class="mb-0">
+                                <a href="{% url 'about' %}" class="text-decoration-none">Về chúng tôi</a>
+                            </p>
+                            <p class="mb-0">
+                                <a href="{% url 'products' %}" class="text-decoration-none">Sản phẩm</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="full-width-linew">
+
+        <div class="container d-flex justify-content-between align-items-center">
+            <!-- Bên trái: Copyright -->
+            <div class="footer-left">
+                <p class="mb-0">Copyright &copy; 2025 Shop Móc & More</p>
+            </div>
+            <!-- Ở giữa: Icon Bộ Công Thương -->
+            <div class="footer-middle">
+
+                <img src="{% static 'images/check.png' %}" alt="Bộ Công Thương" class="cert-icon">
+
+            </div>
+            <!-- Bên phải: Icon Facebook -->
+            <div class="footer-right">
+                <a href="https://www.facebook.com/profile.php?id=61573514560235&mibextid=wwXIfr&rdid=3TRYWe0PDCPEI5qn&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1BH1T37MyC%2F%3Fmibextid%3DwwXIfr" target="_blank" title="Fanpage Facebook">
+                    <img src="{% static 'images/fb.png' %}" alt="Icon 3" class="feature-icon me-3">
+                </a>
+            </div>
+        </div>
+
+    </footer>
+
+
+    <!-- Offcanvas Mini-Cart -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="miniCartOffcanvas" aria-labelledby="miniCartOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="miniCartOffcanvasLabel">Giỏ hàng của bạn</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body" id="mini-cart-content">
+            <p>Đang tải...</p>
+        </div>
+        <div class="offcanvas-footer p-3">
+            <button type="button" class="btn btn-success w-100" onclick="window.location.href='{% url 'cart_view' %}'">Thanh toán</button>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+</html>
+
+

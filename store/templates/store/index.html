@@ -1,0 +1,177 @@
+﻿{% extends 'store/base.html' %}
+{% load static %}
+{% block title %}Shop Móc & More{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="custom-image-section">
+    <!-- Ảnh nền cũ -->
+    <img src="{% static 'images/intro.png' %}" alt="Ảnh của tôi" class="custom-image">
+
+    <!-- Ảnh mới nằm ở góc trái -->
+    <img src="{% static 'images/sale.png' %}" alt="Ảnh góc trái" class="corner-image">
+
+    <!-- Overlay chứa chữ trắng -->
+    <div class="overlay-text">
+        <h2>Chào mừng bạn đến với cửa hàng của chúng tôi.</h2>
+        <p>Hãy khám phá các sản phẩm độc đáo và có trải nghiệm mua sắm tuyệt vời nhé.</p>
+    </div>
+</section>
+
+
+<!-- Phần Về Chúng Tôi -->
+<section class="section-about">
+    <div class="about-video-container position-relative">
+        <!-- Sử dụng thẻ <img> cho GIF -->
+        <img src="{% static 'images/about.gif' %}" alt="Animated Banner" class="about-video w-100">
+        <!-- Lớp overlay chứa nội dung -->
+        <div class="overlay-content position-absolute top-50 start-50 translate-middle text-center">
+            <a href="{% url 'about' %}" class="btn btn-outline-light btn-lg">Tìm Hiểu Thêm Về Chúng Tôi</a>
+        </div>
+    </div>
+</section>
+
+<section class="title-section">
+    <div class="container">
+        <div class="title-box text-center">
+            <h2>Sản Phẩm</h2>
+            <p>Khám phá những sản phẩm độc đáo, chất lượng cao được lựa chọn kỹ càng cho bạn.</p>
+        </div>
+
+    </div>
+</section>
+
+
+<section class="section-about">
+    <div class="about-video-container position-relative">
+        <!-- Sử dụng thẻ <img> cho GIF -->
+        <img src="{% static 'images/product.gif' %}" alt="Animated Banner" class="about-video w-100">
+        <!-- Lớp overlay chứa nội dung -->
+        <div class="overlay-content position-absolute top-50 start-50 translate-middle text-center">
+            <a href="{% url 'products' %}" class="btn btn-outline-light btn-lg">Xem Sản Phẩm</a>
+        </div>
+    </div>
+</section>
+
+<hr class="full-width-line">
+
+<section class="features-section py-4">
+    <div class="container">
+        <div class="row">
+            <!-- Mục 1 -->
+            <div class="col-md-4 d-flex align-items-start mb-3">
+                <!-- Icon (ảnh của bạn) -->
+                <img src="{% static 'images/icon1.png' %}" alt="Icon 1" class="feature-icon me-3">
+                <!-- Nội dung chữ -->
+                <div>
+                    <h5 class="mb-1">Thiết kế độc đáo</h5>
+                    <p class="mb-0">Các sản phẩm được thiết kế cá nhân hoá, mang đậm dấu ấn HUST.</p>
+                </div>
+            </div>
+            <!-- Mục 2 -->
+            <div class="col-md-4 d-flex align-items-start mb-3">
+                <img src="{% static 'images/icon2.png' %}" alt="Icon 2" class="feature-icon me-3">
+                <div>
+                    <h5 class="mb-1">Chất liệu bền đẹp</h5>
+                    <p class="mb-0">Sử dụng mica trong suốt, kim loại chống gỉ, vừa đẹp vừa bền theo thời gian.</p>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex align-items-start mb-3">
+                <img src="{% static 'images/icon3.png' %}" alt="Icon 3" class="feature-icon me-3">
+                <div>
+                    <h5 class="mb-1">Mua nhiều có ưu đãi</h5>
+                    <p class="mb-0">Giảm giá khi mua theo nhóm hoặc đặt số lượng lớn cho các câu lạc bộ, lớp học,...</p>
+                </div>
+            </div>
+            <!-- Mục 4 -->
+            <div class="col-md-4 d-flex align-items-start mb-3">
+                <img src="{% static 'images/icon4.png' %}" alt="Icon 4" class="feature-icon me-3">
+                <div>
+                    <h5 class="mb-1">Miễn phí vận chuyển</h5>
+                    <p class="mb-0">Miễn phí vận chuyển trong Đại học Bách Khoa Hà Nội.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr class="full-width-line">
+
+<section class="title-section">
+    <div class="container">
+        <div class="title-box text-center">
+            <h2>Best Selling</h2>
+        </div>
+
+    </div>
+</section>
+
+{% if bestselling_products %}
+<div class="bestselling-products mt-5">
+    
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+        {% for product in bestselling_products %}
+        <div class="col">
+            <div class="card h-100 product-similar-card">
+                <a href="{% url 'product_detail' product.id %}" class="position-relative">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                    {% else %}
+                    <img src="{% static 'images/default.png' %}" class="card-img-top img-fluid" alt="{{ product.name }}">
+                    {% endif %}
+                    <!-- Overlay hiệu ứng hover: hiển thị "Xem chi tiết" -->
+                    <div class="card-img-overlay d-flex align-items-center justify-content-center overlay-hover">
+                        <span class="text-white fw-bold">Xem chi tiết</span>
+                    </div>
+                </a>
+                <div class="card-body text-center">
+                    <a href="{% url 'product_detail' product.id %}" class="text-decoration-none text-dark">
+                        <h6 class="card-title">{{ product.name }}</h6>
+                    </a>
+                    
+                    <p class="card-text">
+                        <span class="original-price">20000,00 VNĐ</span>
+                        <span class="sale-price">{{ product.price}} VNĐ</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+  {% endif %}
+
+<hr class="full-width-line">
+
+<section class="title-section">
+    <div class="container">
+        <div class="title-box text-center">
+            <h2>Liên hệ với chúng tôi</h2>
+
+            <p>Nếu bạn có bất kỳ thắc mắc gì, đừng ngần ngại liên hệ với chúng tôi. Chúng tôi luôn sẵn sàng lắng nghe và hỗ trợ, đảm bảo bạn nhận được sự tư vấn chu đáo và giải đáp mọi câu hỏi một cách nhanh chóng nhất.</p>
+        </div>
+    </div>
+</section>
+
+<div class="contact-follow-container">
+    <!-- Nút thông tin liên hệ -->
+    <div class="contact-button-container">
+        <a href="{% url 'contact' %}" class="btn btn-danger btn-lg">Thông tin liên hệ</a>
+    </div>
+    <!-- Phần Theo dõi chúng tôi -->
+    <div class="follow-us">
+        <a href="https://www.facebook.com/profile.php?id=61573514560235&mibextid=wwXIfr&rdid=3TRYWe0PDCPEI5qn&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1BH1T37MyC%2F%3Fmibextid%3DwwXIfr" target="_blank">
+            <img src="{% static 'images/page.png' %}" alt="Fanpage " class="fanpage-image">
+        </a>
+        <img src="{% static 'images/arrow.png' %}" alt="Mũi tên" class="arrow-icon">
+        <div class="follow-us-text">
+            <h2>Theo dõi chúng tôi</h2>
+        </div>
+    </div>
+</div>
+
+
+<hr class="full-width-line">
+
+{% endblock %}

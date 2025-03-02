@@ -1,0 +1,80 @@
+﻿{% extends 'store/base.html' %}
+{% load static %}
+{% block head %}
+{{ block.super }}
+
+{% endblock %}
+{% block title %}Sản phẩm - Shop Móc & More{% endblock %}
+{% block content %}
+<img src="{% static 'images/product.png' %}" alt="product" class="custom-image">
+<div id="cart-message" class="alert alert-success d-none" role="alert"></div>
+<div class="container mt-4">
+   
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        {% for product in products %}
+        <div class="col">
+            <div class="card product-card">
+                {% if product.image %}
+                <a href="{% url 'product_detail' product.id %}">
+                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                </a>
+                <div class="hover-text">
+                    SEE MORE
+                </div>
+                {% else %}
+                <a href="{% url 'product_detail' product.id %}">
+                    <img src="{% static 'images/default.png' %}" class="card-img-top" alt="{{ product.name }}">
+                </a>
+                <div class="hover-text">
+                    SEE MORE
+                </div>
+                {% endif %}
+                <hr>
+                <div class="card-body">
+                    <a href="{% url 'product_detail' product.id %}" class="text-decoration-none text-dark">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                    </a>
+                    <p>Giá:</p>
+                    <p class="card-text">
+                        <span class="original-price">20000,00 VNĐ</span>
+                        <span class="sale-price">{{ product.price}} VNĐ</span>
+                    </p>
+
+                   
+
+                    <div class="mt-auto">
+                        <div class="input-group">
+                            <!-- Ô nhập số lượng sản phẩm (mặc định là 1) -->
+                            <input type="number" class="form-control" min="1" value="1" id="quantity-{{ product.id }}">
+                            <!-- Nút Thêm vào giỏ, truyền product id và id của ô nhập số lượng -->
+                            <button class="btn btn-success add-to-cart"
+                                    data-product="{{ product.id }}"
+                                    data-quantity-input="quantity-{{ product.id }}"
+                                    type="button">
+                                Thêm vào giỏ
+                            </button>
+                        </div>
+                    </div>
+                    <div class="desc-overlay">
+                        <p>{{ product.description }}</p>
+                        <button class="btn btn-sm btn-secondary close-desc">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<hr class="full-width-line">
+
+
+<form method="post">
+    {% csrf_token %}
+</form>
+
+
+{% endblock %}
+
+
+
