@@ -6,6 +6,6 @@ services:
     startCommand: gunicorn ecommerce.wsgi:application
     envVars:
       - key: DJANGO_SECRET_KEY
-        value: your_secret_key_here
+        value: django-insecure-%t$fg*(28f(9a@(#bhlxp*5*98c$zwmtpmshy&0qk8-n9mos#7
       - key: DATABASE_URL
         value: sqlite:///db.sqlite3
