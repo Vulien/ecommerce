@@ -28,7 +28,9 @@ SECRET_KEY = 'django-insecure-%t$fg*(28f(9a@(#bhlxp*5*98c$zwmtpmshy&0qk8-n9mos#7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mocmore.store', 'www.mocmore.store']
+ALLOWED_HOSTS = ['mocmore.store', 'www.mocmore.store', 'mocmore-store.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://mocmore.store', 'https://www.mocmore.store']
+
 
 
 # Application definition
