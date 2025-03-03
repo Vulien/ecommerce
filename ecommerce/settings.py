@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-%t$fg*(28f(9a@(#bhlxp*5*98c$zwmtpmshy&0qk8-n9mos#7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mocmore-store.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
