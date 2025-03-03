@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: ecommerce
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn ecommerce.wsgi:application
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        value: your_secret_key_here
+      - key: DATABASE_URL
+        value: sqlite:///db.sqlite3
