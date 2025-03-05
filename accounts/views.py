@@ -3,7 +3,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.hashers import make_password
 from accounts.models import CustomUser
 from django.contrib import messages
-
+from django.contrib.auth.forms import UserCreationForm
+from .forms import CustomUserCreationForm
 
 def user_login(request):
     if request.method == "POST":
@@ -14,21 +15,30 @@ def user_login(request):
         
         if user is not None:
             login(request, user)
+            if not request.POST.get('remember_me'):
+                request.session.set_expiry(0)
             messages.success(request, "Đăng nhập thành công!")
-            return redirect("home")  # Thay "home" bằng tên URL của trang chủ
+            return render(request, "store/index.html") # Thay "home" bằng tên URL của trang chủ
         else:
             messages.error(request, "Email hoặc mật khẩu không đúng!")
     
     return render(request, "accounts/login.html")
 
+
 def user_logout(request):
     logout(request)
     return redirect("home")
 
-def login_email(request):
+def user_register(request):
     if request.method == "POST":
-        email = request.POST["email"]
-        request.session["email"] = email
-        return redirect("chat_home")
-    return render(request, "accounts/login.html")
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Đăng ký thành công! Vui lòng đăng nhập.")
+            return redirect("login")
+        else:
+            messages.error(request, "Có lỗi xảy ra. Vui lòng kiểm tra lại thông tin.")
+    else:
+        form = CustomUserCreationForm()
+    return render(request, "accounts/register.html", {"form": form})
 
