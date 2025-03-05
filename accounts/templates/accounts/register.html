@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập</title>
+    <title>Đăng ký </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script>
         var getCartUrl = "{% url 'get_cart' %}";
@@ -48,51 +48,21 @@
             </div>
         </div>
     </nav>
-    <div id="floating-cart-icon">
-        <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#miniCartOffcanvas">
-            🛒<span id="cart-count" class="badge bg-danger">{{ cart_count}}</span>
-        </button>
-
-    </div>
-
     <div class="container mt-5">
-        <h2 class="text-center mb-4">Đăng nhập</h2>
-
-        <!-- Hiển thị thông báo lỗi/success -->
+        <h2 class="text-center mb-4">Đăng ký</h2>
         {% if messages %}
         {% for message in messages %}
         <div class="alert alert-{{ message.tags }}">{{ message }}</div>
         {% endfor %}
         {% endif %}
-
-        <form method="POST" action="{% url 'login' %}">
+        <form method="POST" action="{% url 'register' %}">
             {% csrf_token %}
-            <div class="mb-3">
-                <label for="id_email" class="form-label">Email:</label>
-                <input type="email" name="email" id="id_email" class="form-control" required>
-            </div>
-            <div class="mb-3">
-                <label for="id_password" class="form-label">Mật khẩu:</label>
-                <input type="password" name="password" id="id_password" class="form-control" required>
-            </div>
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="remember_me" name="remember_me">
-                <label class="form-check-label" for="remember_me">Ghi nhớ mật khẩu</label>
-            </div>
-            <p class="small text-muted">
-                Dữ liệu cá nhân của bạn sẽ chỉ được sử dụng để hỗ trợ trải nghiệm trên website này và cho các mục đích được mô tả trong
-                <a href="{% url 'security' %}" class="text-decoration-none"><strong>Chính sách bảo mật</strong></a>.
-            </p>
-            <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
-            <div class="mb-3">
-                <a href="{% url 'log' %}" class="text-decoration-none">Quên mật khẩu?</a>
-            </div>
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success w-100">Đăng ký</button>
         </form>
         <hr>
-        <p class="text-center">Chưa có tài khoản? <a href="{% url 'register' %}">Đăng ký ngay</a></p>
+        <p class="text-center">Đã có tài khoản? <a href="{% url 'login' %}">Đăng nhập ngay</a></p>
     </div>
-
-
 
     <hr class="full-width-line">
 
@@ -219,10 +189,7 @@
 
     </footer>
 
-
-
-
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
