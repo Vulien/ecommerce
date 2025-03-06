@@ -9,17 +9,17 @@ body {
 /* Navbar */
 .navbar {
     background-color: #fff !important; /* nền trắng */
-    color: #d41919 !important; /* chữ đen */
+    color: #990000 !important; /* chữ đen */
     border-bottom: 1px solid #ccc; /* thêm viền dưới nếu cần */
 }
 
     .navbar .navbar-brand,
     .navbar .nav-link {
-        color: #f96464 !important; 
+        color: #990000 !important; 
     }
 
         .navbar .nav-link:hover {
-            color: #990000 !important;
+            color: #fc9292 !important;
         }
 
 .top-line {
@@ -127,8 +127,10 @@ body {
 
 .product-card img {
     height: 250px;
+    
     object-fit: cover;
 }
+
 
 
 /* Nút Thêm vào giỏ, thay đổi màu nền theo theme */
@@ -216,7 +218,7 @@ footer {
 
 .container.d-flex.justify-content-between.align-items-center {
     position: relative;
-    top: -130px;
+    
 }
 
 #floating-cart-icon {
@@ -679,3 +681,73 @@ footer {
     color: red;
     font-weight: bold;
 }
+
+.star-rating img {
+    width: 15px;
+    height: 15px;
+    margin-right: 2px;
+}
+
+/* Ảnh chính: đảm bảo kích thước phù hợp */
+#main-img {
+    max-height: 500px;
+    object-fit: cover;
+}
+
+/* Các thumbnail */
+.thumbnail-img {
+    width: 130px;
+    height: 150px;
+    object-fit: cover;
+    margin: 0 5px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border 0.2s;
+}
+
+    .thumbnail-img:hover {
+        border-color: #ff3366;
+    }
+
+.sidebar-section {
+    margin-bottom: 20px;
+    /* Bạn có thể thêm background-color hoặc padding tùy ý */
+}
+
+.sidebar-heading {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+.sidebar-heading-line {
+    width: 50px;
+    height: 2px;
+    background-color: #000; /* Màu gạch dưới */
+    margin: 5px 0 10px; /* Canh lề trên-dưới */
+}
+
+.sidebar-category-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+    .sidebar-category-list li {
+        margin-bottom: 10px; /* Khoảng cách giữa các dòng */
+    }
+
+        .sidebar-category-list li a {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .sidebar-category-list li.active a {
+            font-weight: bold;
+            color: #000; /* Hoặc màu bạn muốn in đậm */
+        }
+
+        .sidebar-category-list li a:hover {
+            color: #ff3366; /* Hiệu ứng hover */
+        }
+
