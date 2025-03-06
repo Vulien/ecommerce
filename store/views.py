@@ -6,7 +6,7 @@ import json
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .models import Product, Order, OrderItem
+from .models import Product, Order, OrderItem, Category
 from .forms import ReviewForm
 import random
 import string
@@ -23,11 +23,35 @@ def about(request):
     return render(request, "store/about.html")
 
 def product_list(request):
-    products = Product.objects.all()  # Lấy tất cả sản phẩm từ database
-    return render(request, 'store/home.html', {'products': products})  # Truyền dữ liệu vào template
+   
+    category_slug = request.GET.get('category')
+    categories = Category.objects.all()
+    sort = request.GET.get('sort')
+    if category_slug:
+        products = Product.objects.filter(category__slug=category_slug)
+    else:
+        products = Product.objects.all()
+        
+    if sort == 'price_asc':
+        products = products.order_by('price')
+    elif sort == 'price_desc':
+        products = products.order_by('-price')
+    elif sort == 'name_asc':
+        products = products.order_by('name')
+    elif sort == 'name_desc':
+        products = products.order_by('-name')
+    # nếu sort="" hoặc None -> giữ mặc định
+    context = {
+        'categories': categories,
+        'products': products,
+        'selected_category': category_slug,
+        'sort': sort,
+    }
+    return render(request, 'store/home.html', context)  # Truyền dữ liệu vào template
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
+    extra_images = product.images.all()
     reviews = product.reviews.order_by('-created_at')
     similar_products = Product.objects.exclude(id=product.id)[:4]
 
@@ -46,6 +70,7 @@ def product_detail(request, product_id):
         'reviews': reviews,
         'form': form,
         'similar_products': similar_products,
+        'extra_images': extra_images,
     })
 
 def login_page(request):
@@ -254,3 +279,9 @@ def shopping(request):
 
 def security(request):
     return render(request, "store/security.html")
+
+def log(request):
+    return render(request, "store/log.html")
+
+def qa(request):
+    return render(request, "store/QA.html")

@@ -1,10 +1,11 @@
 ﻿
 # Register your models here.
 from django.contrib import admin
-from .models import Product, Order, OrderItem
+from .models import Product, Order, OrderItem, ProductImage, Category
 
 admin.site.register(Product)
-
+admin.site.register(ProductImage)
+admin.site.register(Category)
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 0  # Không hiển thị các dòng trống thêm
