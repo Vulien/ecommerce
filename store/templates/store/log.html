@@ -1,0 +1,28 @@
+﻿{% extends 'store/base.html' %}
+{% load static %}
+{% block title %}Đăng nhập{% endblock %}
+
+{% block content %}
+<div class="container mt-5" style="max-width: 600px;">
+    <h2 class="mb-3">Quên mật khẩu</h2>
+    <p>Quên mật khẩu? Vui lòng nhập tên đăng nhập hoặc địa chỉ email. Bạn sẽ nhận được một liên kết tạo mật khẩu mới qua email.</p>
+
+    <!-- Thông báo lỗi/success (nếu có) -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+
+    <form method="POST" action="">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_username_or_email" class="form-label">Email</label>
+            <input type="text" name="username_or_email" id="id_username_or_email" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Đặt lại mật khẩu</button>
+    </form>
+</div>
+<hr class="full-width-line">
+
+{% endblock %}

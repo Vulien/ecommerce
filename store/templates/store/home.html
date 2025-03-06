@@ -9,63 +9,138 @@
 <img src="{% static 'images/product.png' %}" alt="product" class="custom-image">
 <div id="cart-message" class="alert alert-success d-none" role="alert"></div>
 <div class="container mt-4">
-   
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-        {% for product in products %}
-        <div class="col">
-            <div class="card product-card">
-                {% if product.image %}
-                <a href="{% url 'product_detail' product.id %}">
-                    <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                </a>
-                <div class="hover-text">
-                    SEE MORE
-                </div>
-                {% else %}
-                <a href="{% url 'product_detail' product.id %}">
-                    <img src="{% static 'images/default.png' %}" class="card-img-top" alt="{{ product.name }}">
-                </a>
-                <div class="hover-text">
-                    SEE MORE
-                </div>
-                {% endif %}
+    
+    <div class="row">
+        <!-- Cột sidebar (3 cột) -->
+        <div class="col-md-3">
+            <div class="sidebar-section">
+                <h4 class="sidebar-heading">DANH MỤC SẢN PHẨM</h4>
+                <hr class="sidebar-heading-line">
+
+                <ul class="sidebar-category-list">
+                    <!-- Tất cả -->
+                    <li class="{% if not selected_category %}active{% endif %}">
+                        <a href="{% url 'products' %}" class="text-decoration-none">Tất cả</a>
+                    </li>
+
+                    <!-- Lặp qua các category -->
+                    {% for category in categories %}
+                    <li class="{% if category.slug == selected_category %}active{% endif %}">
+                        <a href="?category={{ category.slug }}" class="text-decoration-none">
+                            {{ category.name }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
                 <hr>
-                <div class="card-body">
-                    <a href="{% url 'product_detail' product.id %}" class="text-decoration-none text-dark">
-                        <h5 class="card-title">{{ product.name }}</h5>
-                    </a>
-                    <p>Giá:</p>
-                    <p class="card-text">
-                        <span class="original-price">20000,00 VNĐ</span>
-                        <span class="sale-price">{{ product.price}} VNĐ</span>
-                    </p>
-
-                   
-
-                    <div class="mt-auto">
-                        <div class="input-group">
-                            <!-- Ô nhập số lượng sản phẩm (mặc định là 1) -->
-                            <input type="number" class="form-control" min="1" value="1" id="quantity-{{ product.id }}">
-                            <!-- Nút Thêm vào giỏ, truyền product id và id của ô nhập số lượng -->
-                            <button class="btn btn-success add-to-cart"
-                                    data-product="{{ product.id }}"
-                                    data-quantity-input="quantity-{{ product.id }}"
-                                    type="button">
-                                Thêm vào giỏ
-                            </button>
-                        </div>
-                    </div>
-                    <div class="desc-overlay">
-                        <p>{{ product.description }}</p>
-                        <button class="btn btn-sm btn-secondary close-desc">Close</button>
-                    </div>
-
-                </div>
             </div>
         </div>
-        {% endfor %}
-    </div>
-</div>
+
+        <!-- Cột chính (9 cột) -->
+        <div class="col-md-9">
+            
+                <form method="GET" class="row mb-3">
+                    <!-- Nếu đang lọc danh mục, giữ param category -->
+                    {% if selected_category %}
+                    <input type="hidden" name="category" value="{{ selected_category }}">
+                    {% endif %}
+
+                    <div class="col-auto">
+                        <span>Hiển thị tất cả {{ products|length }} kết quả</span>
+                    </div>
+                    <div class="col-auto">
+                        <select name="sort" class="form-select" onchange="this.form.submit()">
+                            <option value="">Thứ tự mặc định</option>
+
+                            {% if sort|default:"" == "price_asc" %}
+                            <option value="price_asc" selected>Giá tăng dần</option>
+                            {% else %}
+                            <option value="price_asc">Giá tăng dần</option>
+                            {% endif %}
+
+                            {% if sort|default:"" == "price_desc" %}
+                            <option value="price_desc" selected>Giá giảm dần</option>
+                            {% else %}
+                            <option value="price_desc">Giá giảm dần</option>
+                            {% endif %}
+
+                            {% if sort|default:"" == "name_asc" %}
+                            <option value="name_asc" selected>Tên A-Z</option>
+                            {% else %}
+                            <option value="name_asc">Tên A-Z</option>
+                            {% endif %}
+
+                            {% if sort|default:"" == "name_desc" %}
+                            <option value="name_desc" selected>Tên Z-A</option>
+                            {% else %}
+                            <option value="name_desc">Tên Z-A</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </form>
+            
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-4">
+                    {% for product in products %}
+                    <div class="col">
+                        <div class="card product-card">
+                            {% if product.image %}
+                            <a href="{% url 'product_detail' product.id %}">
+                                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                            </a>
+                            <div class="hover-text">
+                                SEE MORE
+                            </div>
+                            {% else %}
+                            <a href="{% url 'product_detail' product.id %}">
+                                <img src="{% static 'images/default.png' %}" class="card-img-top" alt="{{ product.name }}">
+                            </a>
+                            <div class="hover-text">
+                                SEE MORE
+                            </div>
+                            {% endif %}
+                            <hr>
+                            <div class="card-body">
+                                <a href="{% url 'product_detail' product.id %}" class="text-decoration-none text-dark">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                </a>
+
+                                <p class="card-text">
+                                    <span class="original-price">20.000,00 VNĐ</span>
+                                    <span class="sale-price">{{ product.price }} VNĐ</span>
+                                </p>
+
+                                <div class="star-rating">
+                                    <img src="{% static 'images/star.png' %}" alt="star">
+                                    <img src="{% static 'images/star.png' %}" alt="star">
+                                    <img src="{% static 'images/star.png' %}" alt="star">
+                                    <img src="{% static 'images/star.png' %}" alt="star">
+                                    <img src="{% static 'images/star.png' %}" alt="star">
+                                </div>
+
+                                <div class="mt-auto">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" min="1" value="1" id="quantity-{{ product.id }}">
+                                        <button class="btn btn-success add-to-cart"
+                                                data-product="{{ product.id }}"
+                                                data-quantity-input="quantity-{{ product.id }}"
+                                                type="button">
+                                            Thêm vào giỏ
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="desc-overlay">
+                                    <p>{{ product.description }}</p>
+                                    <button class="btn btn-sm btn-secondary close-desc">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>  <!-- Kết thúc cột chính -->
+    </div>  <!-- Kết thúc row -->
+</div>  <!-- Kết thúc container -->
+
 <hr class="full-width-line">
 
 
@@ -74,7 +149,7 @@
 </form>
 
 
-{% endblock %}
+        {% endblock %}
 
 
 
