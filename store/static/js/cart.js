@@ -191,6 +191,12 @@
         }
     }
 
+    window.changeMainImage = function (newSrc) {
+        var mainImg = document.getElementById("main-img");
+        if (mainImg) {
+            mainImg.src = newSrc;
+        }
+    }
 
     function getCSRFToken() {
         let cookieValue = null;
