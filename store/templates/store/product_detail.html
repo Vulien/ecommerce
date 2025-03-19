@@ -26,12 +26,11 @@
             </h5>
             <hr>
 
-
+            <p style="color: green;">Còn hàng</p>
             <!-- Nút Thêm vào giỏ hàng -->
             <div class="mt-4">
                 <div class="input-group" style="max-width: 250px;">
-                    <input type="number" class="form-control" min="1" value="1" id="quantity-{{ product.id }}">
-                    <p style="color: green;">Còn hàng</p>
+                    <input type="number" class="form-control" min="1" value="1" id="quantity-{{ product.id }}">                    
                     <button class="btn btn-success add-to-cart"
                             data-product="{{ product.id }}"
                             data-quantity-input="quantity-{{ product.id }}"
