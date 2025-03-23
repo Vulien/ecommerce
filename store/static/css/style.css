@@ -643,7 +643,7 @@ footer {
     /* Ép ảnh có chiều cao cố định để các card đều nhau */
     .product-similar-card .card-img-top {
         object-fit: cover;
-        height: 250px; /* Bạn có thể điều chỉnh chiều cao tùy ý */
+        height: 300px; /* Bạn có thể điều chỉnh chiều cao tùy ý */
         width: 100%;
         transition: transform 0.3s ease;
     }
