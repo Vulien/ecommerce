@@ -261,7 +261,7 @@ footer {
     position: relative;
     width: 100%;
     /* Chiều cao có thể được tự động từ ảnh hoặc cố định */
-    height: 400px;
+    height: 350px;
     overflow: hidden;
 }
 
